@@ -5,12 +5,15 @@ using UnityEngine;
 public class EffectChange : MonoBehaviour
 {
     Renderer color;
+    AudioSource audioSource;
 
     public GameObject touchOn;
     public GameObject touchOff;
 
     public Material on;
     public Material off;
+
+    public AudioClip se;
 
     GameObject onEffect;
     GameObject offEffect;
@@ -19,6 +22,7 @@ public class EffectChange : MonoBehaviour
     void Start()
     {
         color = GetComponent<Renderer>();
+        audioSource = GetComponent<AudioSource>();
 
         onEffect = Instantiate(touchOn, transform) as GameObject;
         offEffect = Instantiate(touchOff, transform) as GameObject;
@@ -34,6 +38,7 @@ public class EffectChange : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        audioSource.PlayOneShot(se);
         color.material = on;
         onEffect.SetActive(false);
         onEffect.SetActive(true);
