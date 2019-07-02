@@ -18,6 +18,8 @@ public class EffectChange : MonoBehaviour
     GameObject onEffect;
     GameObject offEffect;
 
+    bool hitPl;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +36,7 @@ public class EffectChange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -42,11 +44,15 @@ public class EffectChange : MonoBehaviour
         color.material = on;
         onEffect.SetActive(false);
         onEffect.SetActive(true);
+
+        hitPl = true;
     }
     private void OnTriggerExit(Collider other)
     {
         color.material = off;
         onEffect.SetActive(true);
         onEffect.SetActive(false);
+
+        hitPl = false;
     }
 }
