@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class HitObj : MonoBehaviour
 {
-
+    //public GameObject outputPos;
     public GameObject infoMeter;
-    public Material infoColor;
+    //public Material infoColor;
 
     GameObject obj;
 
@@ -24,15 +24,10 @@ public class HitObj : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //↓これを実装する
-        //Instantiate(infoMeter,new Vector3(0,0,0))
-
-
-        //infoMeter.SetActive(true);
-        infoMeter.GetComponent<Renderer>().material = infoColor;
+        infoMeter.SetActive(true);
     }
     private void OnTriggerExit(Collider other)
     {
-        //infoMeter.SetActive(false);
+        infoMeter.SetActive(false);
     }
 }
