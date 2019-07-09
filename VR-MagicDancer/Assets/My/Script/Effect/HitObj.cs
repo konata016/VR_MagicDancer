@@ -6,13 +6,16 @@ public class HitObj : MonoBehaviour
 {
     //public GameObject outputPos;
     public GameObject infoMeter;
-    //public Material infoColor;
+    //public Material material;
 
-    GameObject obj;
+    Renderer rend;
+    //public Material infoColor;
 
     // Start is called before the first frame update
     void Start()
     {
+        //rend = GetComponent<Renderer>();
+        //rend.material = material;
         infoMeter.SetActive(false);
     }
 
