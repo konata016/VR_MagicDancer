@@ -12,6 +12,8 @@ public class HitPos : MonoBehaviour
     GameObject obj;
     GameObject obj1;
 
+    public static string HitRankText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,22 +32,33 @@ public class HitPos : MonoBehaviour
         {
             obj = BeatUi.notesLefts[0];
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || HitObj.isPanel)
             {
                 if (notesLeftPos <= 50f && notesLeftPos >= -30f)
                 {
                     Debug.Log("Excellent!!");
+
+                    HitRankText = "Excellent!!";
+
                 }
                 if (notesLeftPos < -30f && notesLeftPos >= -60f)
                 {
                     Debug.Log("Good!!");
+
+                    HitRankText = "Good!!";
+
                 }
                 if (notesLeftPos < -60f && notesLeftPos >= -150f)
                 {
                     Debug.Log("Bad!!");
+
+                    HitRankText = "Bad!!";
+
                 }
                 BeatUi.notesLefts.RemoveAt(0);
                 Destroy(obj);
+
+                HitObj.isPanel = false;
             }
         }
         if (!Input.GetKeyDown(KeyCode.Space))
@@ -58,6 +71,9 @@ public class HitPos : MonoBehaviour
             {
                 BeatUi.notesLefts.RemoveAt(0);
                 Destroy(obj);
+
+                HitRankText = "!!";
+
             }
         }
 

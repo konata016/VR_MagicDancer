@@ -16,11 +16,8 @@ public class DebugManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (HitObj.isPanel)
-        {
-            HitObj.isPanel = false;
-        }
 
-        hitPanelTxt.text = "HitPanel:" + HitObj.isPanel.ToString();
+
+        hitPanelTxt.text = "HitPanel:" + HitPos.HitRankText;
     }
 }

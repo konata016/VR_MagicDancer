@@ -26,5 +26,6 @@ public class HitObj : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         infoMeter.SetActive(false);
+        isPanel = false;
     }
 }
