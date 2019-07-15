@@ -58,7 +58,7 @@ public class HitPos : MonoBehaviour
                 BeatUi.notesLefts.RemoveAt(0);
                 Destroy(obj);
 
-                HitObj.isPanel = false;
+                //HitObj.isPanel = false;
             }
         }
         if (!Input.GetKeyDown(KeyCode.Space))
@@ -82,10 +82,12 @@ public class HitPos : MonoBehaviour
         {
             obj1 = BeatUi.notesRights[0];
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || HitObj.isPanel)
             {
                 BeatUi.notesRights.RemoveAt(0);
                 Destroy(obj1);
+
+                HitObj.isPanel = false;
             }
         }
         if (!Input.GetKeyDown(KeyCode.Space))
