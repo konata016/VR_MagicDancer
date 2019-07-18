@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class PlFoodPos : MonoBehaviour
 {
+    Quaternion leftFoodQuaternion;
+
     public GameObject leftFood;
-    public GameObject leftkController;
+    public PlFood leftScript;
+    public PlFood rightScript;
     //public GameObject rightFood;
 
     public int cutNum = 8;
@@ -20,33 +23,77 @@ public class PlFoodPos : MonoBehaviour
     void Start()
     {
         ang = 360 / cutNum;
-        leftStartPos = leftkController.transform.position.y;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        count = 0;
 
-        Quaternion leftFoodQuaternion = leftFood.transform.rotation;
+
+        leftFoodQuaternion = leftFood.transform.rotation;
         float leftFoodAng = leftFoodQuaternion.eulerAngles.y;
 
-        //足の位置を出すやつ
+        //左足の位置を出すやつ
         float minAng = ang / 2;
-        if (leftFoodAng <= minAng || leftFoodAng > minAng + ang * (cutNum - 1))
+        if (leftScript.isTriggerEnter || rightScript.isTriggerEnter)
         {
+            //if (leftFoodAng <= 22.5 || leftFoodAng > 337.5)
+            //{
+            //    count = 0;
+            //}
+            //else 
+            //if (leftFoodAng > 22.5 && leftFoodAng <= 67.5)
+            //{
+            //    count = 1;
+            //}
+            //else if (leftFoodAng > 67.5 && leftFoodAng <= 112.5)
+            //{
+            //    count = 2;
+            //}
+            //else if (leftFoodAng > 112.5 && leftFoodAng <= 157.5)
+            //{
+            //    count = 3;
+            //}
+            //else if (leftFoodAng > 157.5 && leftFoodAng <= 202.5)
+            //{
+            //    count = 4;
+            //}
+            //else if (leftFoodAng > 202.5 && leftFoodAng <= 247.5)
+            //{
+            //    count = 5;
+            //}
+            //else if (leftFoodAng > 247.5 && leftFoodAng <= 292.5)
+            //{
+            //    count = 6;
+            //}
+            //else if (leftFoodAng > 292.5 && leftFoodAng <= 337.5)
+            //{
+            //    count = 7;
+            //}
 
-        }
-        else
-        {
-            for (int i = 1; i < cutNum; i++)
+
+
+            if (leftFoodAng <= minAng || leftFoodAng > minAng + ang * (cutNum - 1))
             {
-                if (leftFoodAng > minAng && leftFoodAng <= minAng + ang)
-                {
-                    count = i;
-                }
-                minAng += ang;
+                count = 0;
             }
+            else
+            {
+                for (int i = 1; i < cutNum; i++)
+                {
+                    if (leftFoodAng > minAng && leftFoodAng <= minAng + ang)
+                    {
+                        count = i;
+                        break;
+                    }
+                    minAng += ang;
+                }
+
+            }
+            leftScript.isTriggerEnter = false;
+            rightScript.isTriggerEnter = false;
         }
+       
     }
 }

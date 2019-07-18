@@ -10,6 +10,7 @@ TagManager:
   - BadHit
   - NotesRight
   - NotesLeft
+  - GroundPanel
   layers:
   - Default
   - TransparentFX

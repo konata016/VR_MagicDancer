@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlFood : MonoBehaviour
-{ 
-    public bool isTriggerEnter;
-    public bool isTriggerExit;
+public class GroundPanel : MonoBehaviour
+{
+
+    AudioSource audioSource;
+    public AudioClip se;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -21,18 +22,10 @@ public class PlFood : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "GroundPanel")
-        {
-            isTriggerEnter = true;
-            isTriggerExit = true;
-        }
+        audioSource.PlayOneShot(se);
     }
-
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "GroundPanel")
-        {
-            isTriggerExit = false;
-        }
+        
     }
 }
