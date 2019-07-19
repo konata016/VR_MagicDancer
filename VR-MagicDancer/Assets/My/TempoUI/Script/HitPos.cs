@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class HitPos : MonoBehaviour
 {
     public List<GameObject> listObj = new List<GameObject>();
+
     float notesLeftPos;
     float notesRightPos;
 
@@ -17,7 +18,7 @@ public class HitPos : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        HitObj.isPanel = false;
     }
 
     // Update is called once per frame
@@ -32,7 +33,7 @@ public class HitPos : MonoBehaviour
         {
             obj = BeatUi.notesLefts[0];
 
-            if (Input.GetKeyDown(KeyCode.Space) || HitObj.isPanel)
+            if (Input.GetKeyDown(KeyCode.Space) || HitObj.isPanel||GroundPanel.isGround)
             {
                 if (notesLeftPos <= 50f && notesLeftPos >= -30f)
                 {
@@ -82,12 +83,13 @@ public class HitPos : MonoBehaviour
         {
             obj1 = BeatUi.notesRights[0];
 
-            if (Input.GetKeyDown(KeyCode.Space) || HitObj.isPanel)
+            if (Input.GetKeyDown(KeyCode.Space) || HitObj.isPanel || GroundPanel.isGround)
             {
                 BeatUi.notesRights.RemoveAt(0);
                 Destroy(obj1);
 
                 HitObj.isPanel = false;
+                GroundPanel.isGround = false;
             }
         }
         if (!Input.GetKeyDown(KeyCode.Space))

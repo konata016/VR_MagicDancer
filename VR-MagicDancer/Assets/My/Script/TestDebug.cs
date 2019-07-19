@@ -11,6 +11,8 @@ public class TestDebug : MonoBehaviour
     public Image image;
     Quaternion quaternion;
 
+    ///StepClass.Step step;
+
     public GameObject obj;
 
     public PlFood leftScript;
@@ -29,7 +31,7 @@ public class TestDebug : MonoBehaviour
     {
         quaternion = obj.transform.rotation;
 
-        txt.text = "" + quaternion.eulerAngles + PlFoodPos.count + leftScript.isTriggerEnter;
+        txt.text = "" + quaternion.eulerAngles + PlFoodPos.count + HitPos.HitRankText;
 
 
         image.sprite = leftFoodImg[PlFoodPos.count];
