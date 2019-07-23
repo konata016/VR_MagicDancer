@@ -16,7 +16,7 @@ public class PlFoodPos : MonoBehaviour
     float ang;
     float leftStartPos;
 
-    public static int count;
+    public static int hitPosNum;
 
 
     // Start is called before the first frame update
@@ -76,7 +76,7 @@ public class PlFoodPos : MonoBehaviour
 
             if (leftFoodAng <= minAng || leftFoodAng > minAng + ang * (cutNum - 1))
             {
-                count = 0;
+                hitPosNum = 0;
             }
             else
             {
@@ -84,7 +84,7 @@ public class PlFoodPos : MonoBehaviour
                 {
                     if (leftFoodAng > minAng && leftFoodAng <= minAng + ang)
                     {
-                        count = i;
+                        hitPosNum = i;
                         break;
                     }
                     minAng += ang;

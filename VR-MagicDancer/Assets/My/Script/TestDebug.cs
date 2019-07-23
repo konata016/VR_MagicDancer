@@ -31,10 +31,10 @@ public class TestDebug : MonoBehaviour
     {
         quaternion = obj.transform.rotation;
 
-        txt.text = "" + quaternion.eulerAngles + PlFoodPos.count + HitPos.HitRankText;
+        txt.text = "" + quaternion.eulerAngles + PlFoodPos.hitPosNum + HitPos.HitRankText;
 
 
-        image.sprite = leftFoodImg[PlFoodPos.count];
+        image.sprite = leftFoodImg[PlFoodPos.hitPosNum];
 
     }
 }
