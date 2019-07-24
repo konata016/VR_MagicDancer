@@ -13,6 +13,8 @@ public class HitPos : MonoBehaviour
     GameObject obj;
     GameObject obj1;
 
+    int stepMissCount;
+
     //デバッグ用テキスト
     public static string HitRankText;
 
@@ -41,6 +43,8 @@ public class HitPos : MonoBehaviour
             //地面に接触したときに処理が発生
             if (Input.GetKeyDown(KeyCode.Space) || HitObj.isPanel || GroundPanel.isGround)
             {
+                stepMissCount = 0;
+
                 //登録したステップタイプ分だけ回す
                 for (int i = hitStep.stepTypeCount; i < hitStep.stepType.Count; i++)
                 {
@@ -51,7 +55,7 @@ public class HitPos : MonoBehaviour
                     if (hitStep.stepType[hitStep.stepTypeCount].stepList[hitStep.stepListCount].GetComponent<StepStatus>().number == PlFoodPos.hitPosNum)
                     {
                         //見つけ出せたらステップの次の動きをチェックするために配列を1つずらすための++
-                        hitStep.stepListCount++;    
+                        hitStep.stepListCount++;
 
                         //エクセレント評価の処理
                         if (notesLeftPos <= 50f && notesLeftPos >= -30f)
@@ -78,7 +82,9 @@ public class HitPos : MonoBehaviour
                         //ステップリストに存在しないステップを踏んだ場合
                         //ミスになりコンボがリセットされる
                         HitRankText = "Miss!!";
-                        hitStep.stepListCount = 0;
+                        stepMissCount++;
+                        if (stepMissCount == hitStep.stepType.Count) hitStep.stepListCount = 0;
+                        hitStep.stepTypeCount = 0;
                     }
                 }
 
