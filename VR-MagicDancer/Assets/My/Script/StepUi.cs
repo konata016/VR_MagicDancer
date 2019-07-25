@@ -8,12 +8,16 @@ public class StepUi : MonoBehaviour
     public Image[] image;
     public StepClass hitStep;
 
+    bool isGroundPulse;
+    int stepHitCount;
+    float timer;
+
     [System.SerializableAttribute]
-    public class StepType
+    public class StepImgType 
     {
         public List<bool> hitStepList;
     }
-    public List<StepType> stepType = new List<StepType>();
+    public List<StepImgType> stepImgType = new List<StepImgType>();
 
     // Start is called before the first frame update
     void Start()
@@ -23,13 +27,18 @@ public class StepUi : MonoBehaviour
             image[i].sprite = hitStep.stepType[i].stepList[0].GetComponent<SpriteRenderer>().sprite;
 
             //Listの準備
-            stepType.Add(null);
+            stepImgType.Add(new StepImgType() { hitStepList = new List<bool>() });
+        }
+
+        for (int i = 0; i < hitStep.stepType.Count; i++)
+        {
             for (int j = 0; j < hitStep.stepType[i].stepList.Count; j++)
             {
-                stepType[i].hitStepList.Add(false);
+                stepImgType[i].hitStepList.Add(false);
             }
+
         }
-        Debug.Log(hitStep.stepType.Count);
+       
 
 
     }
@@ -37,46 +46,111 @@ public class StepUi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-
-        for (int i = 0; i < hitStep.stepType.Count; i++)
+        //if(timer < 0.25f)  timer += 0.1f * Time.deltaTime;
+        if (GroundPanel.isGround) isGroundPulse = true;
+        if (isGroundPulse)
         {
-            //ステップの中から踏まれたステップがあるかを探す
-            if (hitStep.stepType[i].stepList[hitStep.stepListCount].GetComponent<StepStatus>().number == PlFoodPos.hitPosNum)
+            for (int i = 0; i < hitStep.stepType.Count; i++)
             {
-                //探し出したものにチェックを付ける
-                stepType[i].hitStepList[hitStep.stepListCount] = true;
-
-                for (int j = 0; j < hitStep.stepType[i].stepList.Count; j++)
+                if(hitStep.stepType[i].stepList[hitStep.stepListCount].GetComponent<StepStatus>().number == PlFoodPos.hitPosNum)
                 {
-                    //チェックがある場合
-                    if (stepType[i].hitStepList[j] == true)
+                    if (stepImgType[i] != null|| hitStep.stepListCount + 1<hitStep.stepType[i].stepList.Count)
                     {
-                        int count = 0;
-                        count++;
-
-                        //チェックががステップ進行度と同じだった場合画像を変える
-                        if (count == hitStep.stepListCount)
-                        {
-                            image[i].sprite = hitStep.stepType[i].stepList[hitStep.stepListCount].GetComponent<SpriteRenderer>().sprite;
-                        }
+                        Debug.Log(hitStep.stepListCount);
+                        image[i].sprite = hitStep.stepType[i].stepList[hitStep.stepListCount + 1].GetComponent<SpriteRenderer>().sprite;
                     }
-                    else break;
+                }
+                else
+                {
+                    //image[i].sprite = null;
+                }
+
+                if (hitStep.stepListCount == 0)
+                {
+                    image[i].sprite = hitStep.stepType[i].stepList[0].GetComponent<SpriteRenderer>().sprite;
                 }
             }
+            isGroundPulse = false;
         }
 
-        //初期まだできていない
-        for (int i = 0; i < hitStep.stepType.Count; i++)
-        {
-            if (stepType[i].hitStepList != null)
-            {
-                if(stepType[i].hitStepList.Contains(true))
-                {
-                    //stepType[i].hitStepList.co
-                }
-            }
-        }
+        //if (GroundPanel.isGround) isGroundPulse = true;
+
+        //if (isGroundPulse)
+        //{
+        //    for (int i = 0; i < hitStep.stepType.Count; i++)
+        //    {
+
+        //        if (hitStep.stepType[i].stepList[hitStep.stepListCount].GetComponent<StepStatus>().number == PlFoodPos.hitPosNum)
+        //        {
+        //            //stepImgType[i].hitStepList[hitStep.stepListCount] = true;
+        //            if (image[i].sprite != null || hitStep.stepListCount + 1 < hitStep.stepType[i].stepList.Count)
+        //            {
+
+
+        //                for (int j = 0; j < hitStep.stepType[i].stepList.Count; j++)
+        //                {
+        //                    if (stepImgType[i].hitStepList[j]) stepHitCount++;
+        //                }
+        //                Debug.Log(stepHitCount);
+        //                Debug.Log(hitStep.stepListCount);
+
+
+        //                if (stepHitCount == hitStep.stepListCount)
+        //                {
+        //                    image[i].sprite = hitStep.stepType[i].stepList[hitStep.stepListCount+1].GetComponent<SpriteRenderer>().sprite;
+        //                    stepImgType[i].hitStepList[hitStep.stepListCount] = true;
+        //                }
+        //                stepHitCount = 0;
+        //            }
+        //            else
+        //            {
+        //                image[i].sprite = hitStep.stepType[i].stepList[0].GetComponent<SpriteRenderer>().sprite;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            image[i].sprite = null;
+        //        }
+
+        //    }
+
+        //    isGroundPulse = false;
+        //}
+        //for (int i = 0; i < hitStep.stepType.Count; i++)
+        //{
+        //    //ステップの中から踏まれたステップがあるかを探す
+        //    if (hitStep.stepType[i].stepList[hitStep.stepListCount].GetComponent<StepStatus>().number == PlFoodPos.hitPosNum)
+        //    {
+        //        //探し出したものにチェックを付ける
+        //        stepImgType[i].hitStepList[hitStep.stepListCount] = true;
+        //        int count = 0;
+        //        for (int j = 0; j < hitStep.stepType[i].stepList.Count; j++)
+        //        {
+        //            //チェックがある場合
+        //            if (stepImgType[i].hitStepList[j] == true)
+        //            {
+
+        //                count++;
+
+        //                //チェックががステップ進行度と同じだった場合画像を変える
+        //                if (count == hitStep.stepListCount)
+        //                {
+        //                    image[i].sprite = hitStep.stepType[i].stepList[hitStep.stepListCount].GetComponent<SpriteRenderer>().sprite;
+        //                }
+        //            }
+        //            else break;
+        //        }
+        //    }
+        //}
+
+        ////初期まだできていない
+        //for (int i = 0; i < hitStep.stepType.Count; i++)
+        //{
+        //    if (stepImgType[i].hitStepList.Contains(true)|| hitStep.stepListCount==0)
+        //    {
+        //        stepImgType[i].hitStepList.IndexOf(false);
+        //    }
+        //}
 
 
 
