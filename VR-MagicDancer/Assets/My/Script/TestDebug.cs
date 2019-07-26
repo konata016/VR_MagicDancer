@@ -19,6 +19,8 @@ public class TestDebug : MonoBehaviour
 
     public Sprite[] leftFoodImg;
 
+    public static string debugText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +33,7 @@ public class TestDebug : MonoBehaviour
     {
         quaternion = obj.transform.rotation;
 
-        txt.text = "" + quaternion.eulerAngles + PlFoodPos.hitPosNum + HitPos.HitRankText;
+        txt.text = "" + quaternion.eulerAngles + PlFoodPos.hitPosNum + HitPos.HitRankText + debugText;
 
 
         image.sprite = leftFoodImg[PlFoodPos.hitPosNum];

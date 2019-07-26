@@ -14,6 +14,7 @@ public class HitPos : MonoBehaviour
     GameObject obj1;
 
     int stepMissCount;
+    bool isStepHit;
 
     //デバッグ用テキスト
     public static string HitRankText;
@@ -43,19 +44,35 @@ public class HitPos : MonoBehaviour
             //地面に接触したときに処理が発生
             if (Input.GetKeyDown(KeyCode.Space) || HitObj.isPanel || GroundPanel.isGround)
             {
+                //ミスをした時の判定のリセット
                 stepMissCount = 0;
+                isStepHit = false;
 
                 //登録したステップタイプ分だけ回す
                 for (int i = hitStep.stepTypeCount; i < hitStep.stepType.Count; i++)
                 {
+                    //配列外を参照しそうになった場合ブレイクする
+                    if (hitStep.stepType[i].stepList.Count == hitStep.stepListCount) break;
+
                     //存在しないステップタイプを無視するよう
-                    hitStep.stepTypeCount = i;
+                    if (!isStepHit) hitStep.stepTypeCount = i;
 
                     //ステップの中から踏まれたステップがあるかを探す
                     if (hitStep.stepType[hitStep.stepTypeCount].stepList[hitStep.stepListCount].GetComponent<StepStatus>().number == PlFoodPos.hitPosNum)
                     {
+                        //前回入力したステップと今回入力したステップが正しい場合、フラグを立てる
+                        if (hitStep.stepListCount == 0)
+                        {
+                            hitStep.stepType[hitStep.stepTypeCount].isStep[hitStep.stepListCount] = true;
+                        }
+                        else
+                        {
+                            if (hitStep.stepType[hitStep.stepTypeCount].isStep[hitStep.stepListCount - 1])
+                                hitStep.stepType[hitStep.stepTypeCount].isStep[hitStep.stepListCount] = true;
+                        }
+
                         //見つけ出せたらステップの次の動きをチェックするために配列を1つずらすための++
-                        hitStep.stepListCount++;
+                        if (!isStepHit) hitStep.stepListCount++;
 
                         //エクセレント評価の処理
                         if (notesLeftPos <= 50f && notesLeftPos >= -30f)
@@ -75,16 +92,28 @@ public class HitPos : MonoBehaviour
                             Debug.Log("Bad!!");
                             HitRankText = "Bad!!";
                         }
-                        break;
+
+                        //正解した場合ミスで発生する処理を実行しないためのフラグ
+                        isStepHit = true;
+                        //break;
                     }
                     else
                     {
                         //ステップリストに存在しないステップを踏んだ場合
-                        //ミスになりコンボがリセットされる
-                        HitRankText = "Miss!!";
-                        stepMissCount++;
-                        if (stepMissCount == hitStep.stepType.Count) hitStep.stepListCount = 0;
-                        hitStep.stepTypeCount = 0;
+                        if (!isStepHit)
+                        {
+                            HitRankText = "Miss!!";
+                            stepMissCount++;      //ミスのカウントを一進める
+
+                            //フラグのリセット
+                            for (int j = 0; j < hitStep.stepType[i].stepList.Count; j++)
+                            {
+                                hitStep.stepType[i].isStep[j] = false;
+                            }
+                            //カウントリセット
+                            hitStep.stepListCount = 0;
+                            hitStep.stepTypeCount = 0;
+                        }
                     }
                 }
 
@@ -123,7 +152,7 @@ public class HitPos : MonoBehaviour
                 BeatUi.notesRights.RemoveAt(0);
                 Destroy(obj1);
 
-                HitObj.isPanel = false;
+                //HitObj.isPanel = false;
                 GroundPanel.isGround = false;
             }
         }
@@ -141,4 +170,3 @@ public class HitPos : MonoBehaviour
         }
     }
 }
-
